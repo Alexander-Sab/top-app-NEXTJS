@@ -1,0 +1,29 @@
+.wrapper {
+	margin-top: 40px;
+}
+
+.title {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	align-items: baseline;
+	justify-items: left;
+	gap: 20px;
+}
+
+.hhTitle {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	align-items: baseline;
+	justify-items: left;
+	gap: 21px;
+}
+
+.hhCount {
+	width: 260px;
+	height: 140px;
+	top: 1107px;
+	left: 282px;
+	gap: 0px;
+	border-radius: 5px 0px 0px 0px;
+	opacity: 0px;
+}
