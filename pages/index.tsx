@@ -1,4 +1,4 @@
-import { Button, P, Rating, Tag } from '@/components';
+import { Button, Input, P, Rating, Tag, Textarea } from '@/components';
 import { Htag } from '../components/Htag/Htag';
 import { useState } from 'react';
 import { withLayout } from '@/layout/Layout';
@@ -30,6 +30,8 @@ function Home({ menu }: HomeProps): JSX.Element {
 			</Tag>
 			<Tag color="primary">Green</Tag>
 			<Rating rating={rating} isEditable setRating={setRating}></Rating>
+			<Input placeholder="тест" />
+			<Textarea placeholder="Textarea" />
 		</>
 	);
 }
