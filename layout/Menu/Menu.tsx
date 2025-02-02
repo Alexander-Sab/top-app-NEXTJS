@@ -10,10 +10,28 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { firstLevelMenu } from '@/helpers/helpers';
+import { motion } from 'framer-motion';
 
 export const Menu = (): JSX.Element => {
 	const { menu, setMenu, firstCategory } = useContext(AppContext);
 	const router = useRouter();
+	const variants = {
+		visible: {
+			marginBottom: 20,
+			transition: {
+				when: 'beforeChildren',
+				staggerChildren: 0.1
+			}
+		},
+		hidden: { marginBottom: 0 }
+	};
+	const variantsChildren = {
+		visible: {
+			opacity: 1,
+			height: 29
+		},
+		hidden: { opacity: 0, height: 0, overflow: 'hidden' }
+	};
 
 	const openSecondLevel = (secondCategory: string) => {
 		// Используем оператор опциональной последовательности (?.) вместо &&
@@ -72,36 +90,48 @@ export const Menu = (): JSX.Element => {
 							>
 								{m._id.secondCategory}
 							</div>
-							<div
-								className={cn(styles.secondLevelBlock, {
-									[styles.secondLevelBlockOpened]: m.isOpened
-								})}
+							<motion.div
+								layout
+								variants={variants}
+								initial={m.isOpened ? 'visible' : 'hidden'}
+								animate={m.isOpened ? 'visible' : 'hidden'}
+								className={cn(styles.secondLevelBlock)}
 							>
-								{buildThirdLevel(m.pages, menuItem.route)}
-							</div>
+								{buildThirdLevel(
+									m.pages,
+									menuItem.route,
+									m.isOpened ?? false
+								)}
+							</motion.div>
 						</div>
 					);
 				})}
+				А
 			</div>
 		);
 	};
-	const buildThirdLevel = (pages: PageItem[], route: string) => {
-		return (
-			<React.Fragment>
-				{pages.map((p) => (
-					<Link
-						key={p._id}
-						href={`/${route}/${p.alias}`}
-						className={cn(styles.thirdLevel, {
-							[styles.thirdLevelActive]:
-								`/${route}/${p.alias}` == router.asPath
-						})}
-					>
-						{p.category}
-					</Link>
-				))}
-			</React.Fragment>
-		);
+	const buildThirdLevel = (
+		pages: PageItem[],
+		route: string,
+		isOpened: boolean
+	) => {
+		return pages.map((p) => (
+			<motion.div key={p._id} variants={variantsChildren}>
+				<Link
+					href={`/${route}/${p.alias}`}
+					tabIndex={isOpened ? 0 : -1}
+					className={cn(styles.thirdLevel, {
+						[styles.thirdLevelActive]:
+							`/${route}/${p.alias}` == router.asPath
+					})}
+					aria-current={
+						`/${route}/${p.alias}` == router.asPath ? 'page' : false
+					}
+				>
+					{p.category}
+				</Link>
+			</motion.div>
+		));
 	};
 
 	return <div className={styles.menu}>{buildFirstLevel()}</div>;

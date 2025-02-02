@@ -42,15 +42,11 @@
 }
 
 .secondLevelBlock {
-	display: none;
-}
+	overflow: hidden;
 
-.secondLevelBlockOpened {
-	display: block;
-}
+	padding: 0;
 
-.secondLevelBlockOpened:last-child {
-	margin-bottom: 20px;
+	list-style: none;
 }
 
 .thirdLevel {
